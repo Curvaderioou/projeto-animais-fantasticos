@@ -242,3 +242,33 @@ body {
     transform: translate3d(0, 0, 0);
   }
 }
+
+.js .js-accordion dd {
+  display: none;
+}
+.js .js-accordion dt {
+  cursor: pointer;
+}
+.js .js-accordion dt::after {
+  content: "⮯";
+  margin-left: 10px;
+}
+.js .js-accordion dt.ativo::after {
+  content: "⮭";
+}
+
+.js-accordion dd.ativo {
+  display: block;
+  animation: showAccordion 0.5s forwards;
+}
+
+@keyframes showAccordion {
+  from {
+    opacity: 0;
+    transform: translate3d(-30px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}

@@ -2,41 +2,42 @@
 //A nav por tab vai dar a possibilidade de um menu ser interativo, atraves dessa interacao nos iremos ter acesso ao conteudo
 
 // primeiro devemos dar uma classe ao html a ul dos itens que vamos interagir, podemos usar o js na frente da classe para dar a entender que // ela esta sendo manipulada no js, e tambem iremos incluir a classe no content
+function initTabMenu (){
+  const tabMenu = document.querySelectorAll('.js-tabmenu li')
+  /*
+  Neste caso colocamos o li pois nao queremos falar com a ul e sim com o seu conteudo. com o conento falaremos com o seu conteudo, no caso a section que tem tudo dentro (que é o que vai aparecer quando interagirmos)
+  */
+  const tabContent = document.querySelectorAll('.js-tabcontent section')
+  /*
+  A function abaixo passando o index que vai se repetir na array do tabContent, isso fara com que o index escolhido seja manipulado no  tabContent e add a class ative, neste caso o index vai ser a section do content
 
-const tabMenu = document.querySelectorAll('.js-tabmenu li')
-/*
-Neste caso colocamos o li pois nao queremos falar com a ul e sim com o seu conteudo. com o conento falaremos com o seu conteudo, no caso a section que tem tudo dentro (que é o que vai aparecer quando interagirmos)
-*/
-const tabContent = document.querySelectorAll('.js-tabcontent section')
-/*
-A function abaixo passando o index que vai se repetir na array do tabContent, isso fara com que o index escolhido seja manipulado no  tabContent e add a class ative, neste caso o index vai ser a section do content
+  Existe um problema, quando algum deles fica ativo e selecionamos outro, tambem ficara ativo, mas nos nao queremos isso, apenas um deve   ficar ativo entao colocaremos antes do tabContento um for each removendo todos os ativos antes de add, isso fará com que apenas um fique  ativos - basicamente é remova todo se tiver, e depois add no escolhido, se o processo for repetido, sera removido novamente e depois add
+  */
+  //o item abaixo sera explicado no final do codigo
 
-Existe um problema, quando algum deles fica ativo e selecionamos outro, tambem ficara ativo, mas nos nao queremos isso, apenas um deve   ficar ativo entao colocaremos antes do tabContento um for each removendo todos os ativos antes de add, isso fará com que apenas um fique  ativos - basicamente é remova todo se tiver, e depois add no escolhido, se o processo for repetido, sera removido novamente e depois add
- */
-//o item abaixo sera explicado no final do codigo
+  if(tabMenu.length && tabContent.length){
+    tabContent[0].classList.add("ativo")
 
-if(tabMenu.length && tabContent.length){
-  tabContent[0].classList.add("ativo")
+    function activeTab(index) {
+      tabContent.forEach((section)=>{
+      section.classList.remove("ativo")
+      })
+      tabContent[index].classList.add("ativo")
+    }
 
-  function activeTab(index) {
-    tabContent.forEach((section)=>{
-    section.classList.remove("ativo")
+    /*
+    Agora vamos relacionar o tabMenu com o content, de forma que quando ele clique no menu ative o content correspondente.
+    pegamso e passamos um foreach por cada item do menu, por isso itemMenu, e podemos passar o segundo argumento ao lado de itemMenu, que é o index, e esse index será o mesmo que queremos ativar. O fato do número de index ser o mesmo facilitará muito e tambem dele ja estar organizado na mesma ordem. É possivel tambem fazer comparando, por exemplo, o menu com class raposa com o content da class raposa, e a comparação sendo igual faz a selecao. 
+    */
+    /*
+    abaixo pegamos cada item do menu e add um evento para acionar, nesse caso o clique, sempre que clicarmos acionaremos uma funcao, no caso a activeTab. mas precisaremos passar o index dentro dessa funcao, e passar ela apos o click (evento) pode dar problemas futuros, entao fazemos uma funcao qualquer e dentro dela passamos a activeTab, essa function que ja esta dentro de uma function a gente transforma em uma arrow function
+    */
+    tabMenu.forEach((itemMenu, index)=>{
+    itemMenu.addEventListener("click", ()=> {
+      activeTab(index)
     })
-    tabContent[index].classList.add("ativo")
+    })
   }
-
-  /*
-  Agora vamos relacionar o tabMenu com o content, de forma que quando ele clique no menu ative o content correspondente.
-  pegamso e passamos um foreach por cada item do menu, por isso itemMenu, e podemos passar o segundo argumento ao lado de itemMenu, que é o index, e esse index será o mesmo que queremos ativar. O fato do número de index ser o mesmo facilitará muito e tambem dele ja estar organizado na mesma ordem. É possivel tambem fazer comparando, por exemplo, o menu com class raposa com o content da class raposa, e a comparação sendo igual faz a selecao. 
-  */
-  /*
-  abaixo pegamos cada item do menu e add um evento para acionar, nesse caso o clique, sempre que clicarmos acionaremos uma funcao, no caso a activeTab. mas precisaremos passar o index dentro dessa funcao, e passar ela apos o click (evento) pode dar problemas futuros, entao fazemos uma funcao qualquer e dentro dela passamos a activeTab, essa function que ja esta dentro de uma function a gente transforma em uma arrow function
-  */
-  tabMenu.forEach((itemMenu, index)=>{
-  itemMenu.addEventListener("click", ()=> {
-    activeTab(index)
-  })
-  })
 }
   // agora alteraremos o css para esconder todos elementos e mostrar o que estiver ativo, que é o clicado.
 
@@ -84,3 +85,5 @@ if(tabMenu.length && tabContent.length){
   nesse caso o js é incluido no html com js, se ele nao estiver habilitado, ele nao ira adicionar, se ele nao adicionar, ele nao lê o css que tem .js na frente, esse css faz o hide e o active, logo tudo funciona, sem interatividade, mas com funcionalidade para os sem suportes a js.
   */
 
+// Agora vamos isolar tudo no escopo com iniTabMenu.
+initTabMenu();
