@@ -3,11 +3,11 @@
 
 // primeiro devemos dar uma classe ao html a ul dos itens que vamos interagir, podemos usar o js na frente da classe para dar a entender que // ela esta sendo manipulada no js, e tambem iremos incluir a classe no content
 function initTabMenu (){
-  const tabMenu = document.querySelectorAll('.js-tabmenu li')
+  const tabMenu = document.querySelectorAll('[data-tab="menu"] li')
   /*
   Neste caso colocamos o li pois nao queremos falar com a ul e sim com o seu conteudo. com o conento falaremos com o seu conteudo, no caso a section que tem tudo dentro (que é o que vai aparecer quando interagirmos)
   */
-  const tabContent = document.querySelectorAll('.js-tabcontent section')
+  const tabContent = document.querySelectorAll('[data-tab="content"] section')
   /*
   A function abaixo passando o index que vai se repetir na array do tabContent, isso fara com que o index escolhido seja manipulado no  tabContent e add a class ative, neste caso o index vai ser a section do content
 
@@ -22,7 +22,8 @@ function initTabMenu (){
       tabContent.forEach((section)=>{
       section.classList.remove("ativo")
       })
-      tabContent[index].classList.add("ativo")
+      const direction = tabContent[index].dataset.anime;
+      tabContent[index].classList.add("ativo", direction)
     }
 
     /*
